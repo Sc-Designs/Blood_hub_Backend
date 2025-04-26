@@ -3,7 +3,6 @@ const app = express();
 const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const path = require("path");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("connect-flash");
@@ -36,7 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // CORS Setup for Development and Production
-const allowedOrigins = ["https://bloodcenter.netlify.app/"];
+const allowedOrigins = ["https://bloodcenter.netlify.app"];
 app.use(
   cors({
     origin: (origin, callback) => {
