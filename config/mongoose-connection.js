@@ -3,11 +3,8 @@
 // Import the Mongoose
 const mongoose = require("mongoose");
 
-// Import The Config Module
-const config = require("config");
-
 // Custom Mongoose Link
-const link = `${config.get("MONGODB_URI")}/BloodHeroes_Hub`;
+const link = process.env.MONGODB_URL;
 
 // Import The Debug Module and set it for only development Environment
 const dbgr = require("debug")("development:dev");
