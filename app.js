@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const createError = require("http-errors");
@@ -5,10 +6,9 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
 const passport = require("passport");
-const flash = require("connect-flash");
 const helmet = require("helmet");
 const cors = require("cors");
-require("dotenv").config();
+const MongoStore = require("connect-mongo");
 
 // Import Routes
 const adminRouter = require("./routes/admin.router");
@@ -54,12 +54,18 @@ app.use(helmet());
 // Session Setup
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URL,
+      collectionName: "sessions",
+      ttl: 24 * 60 * 60,
+    }),
     cookie: {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
     },
   })
 );
@@ -79,15 +85,6 @@ passport.deserializeUser(async (id, done) => {
 });
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-// Flash Messages Setup
-app.use(flash());
-app.use((req, res, next) => {
-  res.locals.error_msg = req.flash("error");
-  res.locals.success_msg = req.flash("success");
-  next();
-});
 
 // Set View Engine
 app.set("view engine", "ejs");
@@ -110,7 +107,7 @@ app.use((req, res, next) => {
 // Error Handler
 app.use((err, req, res, next) => {
   const status = err.status || 500;
-  console.error(err); // Log full error for debugging in dev
+  console.error(err);
   res.status(status);
   if (req.originalUrl.startsWith("/api/")) {
     return res.json({
