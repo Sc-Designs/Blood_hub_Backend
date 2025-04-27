@@ -18,7 +18,7 @@ module.exports.NotifyUsers = async ({reciventId, donorId, id})=>{
           sub: "Blood Request Accepted By Donar 🎉",
           mess: emailTemplate.ReciventEmail({
             name: donor.name,
-            number,
+            number: post.DonarNumber,
             type: post.bloodType,
           }),
         });
