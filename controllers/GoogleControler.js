@@ -1,12 +1,3 @@
-const { OAuth2Client } = require("google-auth-library");
-const userModel = require("../Models/User-Model");
-const EmailSender = require("../utlis/EmailSender");
-const emailTemplate = require("../Email_Template/Emails");
-const Otp = require("../utlis/OtpFunction");
-const userService = require("../Services/user.service");
-
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
 const verifyGoogleToken = async (req, res) => {
   try {
     const { token } = req.body;
@@ -22,64 +13,63 @@ const verifyGoogleToken = async (req, res) => {
     if (!email) {
       return res.status(400).json({ error: "Email not found in token" });
     }
+    function cleanUser(user) {
+      const {
+        password,
+        otp,
+        otpExpiry,
+        emergencycontact,
+        gender,
+        age,
+        googleId,
+        createdAt,
+        updatedAt,
+        __v,
+        ...safeUser
+      } = user._doc;
+      return safeUser;
+    }
 
-    // 1. Check if user already exists
     let user = await userModel.findOne({ email });
     const otp = Otp.OtpGenerator();
-    // 2. If not, create a new user
+
     if (!user) {
-        const password = "password";
-        const hashedPassword = await userModel.hashPassword(password);
-        const user = await userService.createUser({
-            name: name,
-            email:email,
-            password: hashedPassword,
-            otp: otp,
-            otpExpiry: new Date(Date.now() + 60 * 1000),
-          });
+      const password = "password";
+      const hashedPassword = await userModel.hashPassword(password);
+      user = await userService.createUser({
+        name,
+        email,
+        password: hashedPassword,
+        otp,
+        otpExpiry: new Date(Date.now() + 60 * 1000),
+      });
 
       await user.save();
-      delete user._doc.password;
-      delete user._doc.otp;
-      delete user._doc.otpExpiry;
-      delete user._doc.emergencycontact;
-      delete user._doc.gender;
-      delete user._doc.age;
-      delete user._doc.googleId;
-      delete user._doc.createdAt;
-      delete user._doc.updatedAt;
-      delete user._doc.__v;
-      res.json(user);
+
       await EmailSender.sendEmail({
-          email: user.email,
-          sub: "OTP Verification 📫",
-          mess: emailTemplate.registerEmail(otp),
-        });
+        email: user.email,
+        sub: "OTP Verification 📫",
+        mess: emailTemplate.registerEmail(otp),
+      });
+
+      const cleanedUser = cleanUser(user);
+      return res.status(201).json(cleanedUser);
     } else {
-        user.otp = otp;
-        user.otpExpiry= new Date(Date.now() + 60 * 1000);
-        await user.save()
-        delete user._doc.password;
-        delete user._doc.otp;
-        delete user._doc.otpExpiry;
-        delete user._doc.emergencycontact;
-        delete user._doc.gender;
-        delete user._doc.age;
-        delete user._doc.googleId;
-        delete user._doc.createdAt;
-        delete user._doc.updatedAt;
-        delete user._doc.__v;
-        res.json(user);
-        await EmailSender.sendEmail({
-            email: user.email,
-            sub: "🔢Login OTP🔢",
-            mess: emailTemplate.loginEmail(otp),
-        });
+      user.otp = otp;
+      user.otpExpiry = new Date(Date.now() + 60 * 1000);
+      await user.save();
+
+      await EmailSender.sendEmail({
+        email: user.email,
+        sub: "🔢Login OTP🔢",
+        mess: emailTemplate.loginEmail(otp),
+      });
+
+      const cleanedUser = cleanUser(user);
+      return res.status(200).json(cleanedUser);
     }
   } catch (error) {
     console.error("Google token verify error:", error);
-    res.status(400).json({ error: "Invalid Google token" });
+    return res.status(400).json({ error: "Invalid Google token" });
   }
 };
-
-module.exports = { verifyGoogleToken };
