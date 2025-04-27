@@ -30,7 +30,8 @@ module.exports.registerUser = async (req, res) => {
       otpExpiry: new Date(Date.now() + 60 * 1000),
     });
     await user.save();
-    res.status(201).json(user);
+    delete user._doc.password;
+    res.status(201).json({user});
     await EmailSender.sendEmail({
       email: user.email,
       sub: "OTP Verification 📫",

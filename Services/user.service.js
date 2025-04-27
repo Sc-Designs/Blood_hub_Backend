@@ -11,7 +11,7 @@ module.exports.createUser = async ({
   googleId,
   verified,
 }) => {
-  if (!email || !password || !name || !dob) {
+  if (!email || !password || !name) {
     throw new Error("All fields are required!");
   }
   const user = await userModel.create({
