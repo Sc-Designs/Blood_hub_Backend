@@ -1,18 +1,16 @@
 const bloodRequestModel = require("../Models/Recivent-Model");
 const userModel = require("../Models/User-Model");
 const { userFinder } = require("../utlis/UserFinder");
-
+const {NotifyUsers} = require("../utlis/NotificationForDonorAndReciver");
 module.exports.requestAccepted = async ({ data, userSockets }) => {
   try {
     const { postId, donarId, donarNumber } = data;
-    console.log("📬 Request Accepted Data:", data); // Debug log
 
     const post = await bloodRequestModel.findById(postId);
     if (!post) {
       console.log(`❌ Post with ID ${postId} not found.`);
       return;
     }
-    console.log(`🩸 Updating post status for Post ID: ${postId}`);
 
     post.status = "Accepted";
     post.donarId = donarId;
@@ -23,7 +21,6 @@ module.exports.requestAccepted = async ({ data, userSockets }) => {
       key: "_id",
       query: donarId,
     });
-    console.log(`💼 Found donor ${donarId}:`, donor);
 
     donor.Donate.push(postId);
     await donor.save();
@@ -36,9 +33,6 @@ module.exports.requestAccepted = async ({ data, userSockets }) => {
         model: "user",
         select: "-password -__v",
       });
-    console.log(
-      `🩸 Found ${allPendingPosts.length} pending posts for blood group: ${donor.bloodgroup}`
-    );
 
     const filteredPosts = allPendingPosts.filter(
       (item) => item.reciventId?._id.toString() !== donarId.toString()
@@ -62,19 +56,16 @@ module.exports.requestAccepted = async ({ data, userSockets }) => {
         model: "recipient",
         select: "-password -__v",
       });
-    console.log(`📦 Sending receiver update to ${post.reciventId}`);
 
     const receiverSocket = userSockets.get(receiverUser._id.toString());
     if (receiverSocket) {
-      console.log(
-        `📡 Emitting "reciver-update" to receiver ${receiverUser._id}`
-      );
       receiverSocket.emit("reciver-update", receiverUser);
     } else {
       console.log(
         `❌ Receiver socket not found for userId: ${receiverUser._id}`
       );
     }
+    NotifyUsers({reciventId: post.reciventId, donorId: post.donarId})
   } catch (err) {
     console.error("❌ Error in requestAccepted:", err.message);
   }

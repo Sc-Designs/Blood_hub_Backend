@@ -157,12 +157,13 @@ module.exports.varifyOtp = async (req, res) => {
 
     user.otp = null;
     user.otpExpiry = null;
+    if(user.verified === false) user.verified = true;
     await user.save();
 
     // Send welcome email
     await EmailSender.sendEmail({
       email: user.email,
-      sub: "🔢Login OTP🔢",
+      sub: "🎉WellCome Message🎉",
       mess: emailTemplate.welcomeEmail,
     });
     res.status(200).json({ token });
