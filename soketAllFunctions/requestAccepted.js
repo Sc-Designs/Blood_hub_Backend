@@ -65,7 +65,7 @@ module.exports.requestAccepted = async ({ data, userSockets }) => {
         `❌ Receiver socket not found for userId: ${receiverUser._id}`
       );
     }
-    NotifyUsers({reciventId: post.reciventId, donorId: post.donarId})
+    NotifyUsers({reciventId: post.reciventId, donorId: post.donarId , id: postId})
   } catch (err) {
     console.error("❌ Error in requestAccepted:", err.message);
   }

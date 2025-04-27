@@ -54,7 +54,6 @@ const initSocket = (server) => {
   });
 
   io.on("connection", async (socket) => {
-    console.log("✅ Client connected:", socket.id);
     const userId = socket.user;
 
     const customer = await userFinder({ key: "_id", query: socket.user });

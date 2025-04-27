@@ -14,7 +14,6 @@ require("dotenv").config();
 const adminRouter = require("./routes/admin.router");
 const usersRouter = require("./routes/users.router");
 const googleAuthenticatorRouter = require("./routes/googleAuthenticator.router");
-const miantanRouter = require("./routes/maintainers.router");
 const donarRouter = require("./routes/donate.router");
 const pdfGenerator = require("./routes/pdfGenarator");
 
@@ -101,7 +100,6 @@ app.use(
   process.env.GOOGLE_AUTHENTICATOR || "/google-auth",
   googleAuthenticatorRouter
 );
-app.use(process.env.MAINTAINERES || "/maintainers", miantanRouter);
 app.use("/pdf", pdfGenerator);
 
 // 404 Handler

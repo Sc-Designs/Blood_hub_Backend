@@ -18,7 +18,6 @@ module.exports.joinRoom = async ({
       activeRooms[roomId].push(ids);
       socketToRoom[ids] = roomId;
       socket.join(roomId);
-      console.log(`➡️ Socket ${ids} joined room ${roomId}`);
       const partnerSocketId = activeRooms[roomId].find((id) => id !== ids);
       if (partnerSocketId) {
         const partnerUserId = [...userSockets.entries()].find(

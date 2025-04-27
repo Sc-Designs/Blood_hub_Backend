@@ -1,7 +1,8 @@
 const { userFinder } = require("./UserFinder");
 const EmailSender = require("./EmailSender");
 const emailTemplate = require("../Email_Template/Emails");
-module.exports.NotifyUsers = async ({reciventId, donorId})=>{
+const bloodRequestModel = require("../Models/Recivent-Model");
+module.exports.NotifyUsers = async ({reciventId, donorId, id})=>{
     try{
         const reciver = await userFinder({
             key: "_id",
@@ -11,13 +12,14 @@ module.exports.NotifyUsers = async ({reciventId, donorId})=>{
             key: "_id",
             query: donorId
         })
+        const post = await bloodRequestModel.findById(id)
         await EmailSender.sendEmail({
           email: reciver.email,
           sub: "Blood Request Accepted By Donar 🎉",
           mess: emailTemplate.ReciventEmail({
             name: donor.name,
             number,
-            type: bloodRequest.bloodType,
+            type: post.bloodType,
           }),
         });
         await EmailSender.sendEmail({
@@ -25,8 +27,8 @@ module.exports.NotifyUsers = async ({reciventId, donorId})=>{
           sub: "Blood Request Accepted By You ❤️",
           mess: emailTemplate.DonarEmail({
             name: reciver.name,
-            number: bloodRequest.reciverNumber,
-            type: bloodRequest.bloodType,
+            number: post.reciverNumber,
+            type: post.bloodType,
           }),
         });
     }catch(err){

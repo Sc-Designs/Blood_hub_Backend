@@ -65,7 +65,6 @@ exports.acceptRequest = async ({ data, userSockets, userId }) => {
     );
     userSockets.forEach((s, id) => {
       if (id !== userId.toString() && s.bloodgroup === bloodGroup) {
-        console.log(`📡 Emitting 'new-post' to user ${id}`);
         s.emit("new-post", filterData);
       }
     });
