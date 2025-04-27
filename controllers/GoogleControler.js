@@ -1,4 +1,13 @@
-const verifyGoogleToken = async (req, res) => {
+const {userFinder} = require("../utlis/UserFinder");
+const { OAuth2Client } = require("google-auth-library");
+const Otp = require("../utlis/OtpFunction");
+const EmailSender = require("../utlis/EmailSender");
+const emailTemplate = require("../Email_Template/Emails");
+const userService = require("../Services/user.service");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const userModel = require("../Models/User-Model");
+
+module.exports.verifyGoogleToken = async (req, res) => {
   try {
     const { token } = req.body;
 
@@ -30,7 +39,7 @@ const verifyGoogleToken = async (req, res) => {
       return safeUser;
     }
 
-    let user = await userModel.findOne({ email });
+    let user = await userFinder({key:"email", query: email});
     const otp = Otp.OtpGenerator();
 
     if (!user) {
