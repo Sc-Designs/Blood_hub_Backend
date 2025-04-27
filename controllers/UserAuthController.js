@@ -185,6 +185,11 @@ module.exports.reSendOtp = async (req, res) => {
     user.otp = OTP;
     user.otpExpiry = OtptpExpiry;
     await user.save();
+    await EmailSender.sendEmail({
+      email: user.email,
+      sub: "🔢Resend OTP🔢",
+      mess: emailTemplate.ReSendOtp(OTP),
+    });
   } catch (err) {
     console.log(err);
   }
