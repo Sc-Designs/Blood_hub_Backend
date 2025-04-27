@@ -63,7 +63,6 @@ exports.acceptRequest = async ({ data, userSockets, userId }) => {
     const filterData = DonatePost.filter(
       (item) => item.reciventId._id.toString() === userId.toString()
     );
-    console.log(filterData);
     userSockets.forEach((s, id) => {
       if (id !== userId.toString() && s.bloodgroup === bloodGroup) {
         console.log(`📡 Emitting 'new-post' to user ${id}`);
