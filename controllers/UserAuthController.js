@@ -164,7 +164,7 @@ module.exports.varifyOtp = async (req, res) => {
     await EmailSender.sendEmail({
       email: user.email,
       sub: "🎉WellCome Message🎉",
-      mess: emailTemplate.welcomeEmail,
+      mess: emailTemplate.welcomeEmail(),
     });
     res.status(200).json({ token });
   } catch (err) {
