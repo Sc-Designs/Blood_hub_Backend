@@ -1033,8 +1033,8 @@ module.exports.welcomeEmail = ()=>{
 													<table class="button_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 														<tr>
 															<td class="pad">
-																<div class="alignment" align="center"><a href="http://localhost:4000/users/profile" target="_blank" style="color:#ffffff;text-decoration:none;"><!--[if mso]>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"  href="http://localhost:4000/users/profile"  style="height:42px;width:184px;v-text-anchor:middle;" arcsize="5%" fillcolor="#33abd9">
+																<div class="alignment" align="center"><a href="https://bloodcenter.netlify.app/users/profile" target="_blank" style="color:#ffffff;text-decoration:none;"><!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"  href="https://bloodcenter.netlify.app/users/profile"  style="height:42px;width:184px;v-text-anchor:middle;" arcsize="5%" fillcolor="#33abd9">
 <v:stroke dashstyle="Solid" weight="0px" color="#33abd9"/>
 <w:anchorlock/>
 <v:textbox inset="0px,0px,0px,0px">
