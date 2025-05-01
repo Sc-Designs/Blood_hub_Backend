@@ -37,6 +37,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "https://bloodcenter.netlify.app",
   "http://localhost:5173",
+  "https://blood-hub-backend.onrender.com",
 ];
 app.use(
   cors({
