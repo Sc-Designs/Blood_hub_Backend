@@ -34,7 +34,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // CORS Setup for Development and Production
-const allowedOrigins = ["https://bloodcenter.netlify.app"];
+const allowedOrigins = [
+  "https://bloodcenter.netlify.app",
+  "http://localhost:5173",
+];
 app.use(
   cors({
     origin: (origin, callback) => {
