@@ -1,483 +1,439 @@
-# 📌 Blood_Hub API Documentation
+# 🧸 Blood Donation Website
 
-## Project Overview
-Blood_Hub is a platform that connects blood donors with recipients. This API allows users to register, login, and manage their profiles. It also includes admin functionalities and Google authentication.
+---
 
-## Technologies Used
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT (JSON Web Token)
-- Passport.js (for Google Authentication)
-- bcrypt (for password hashing)
+<br/>
 
-## Setup Instructions
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/Blood_Hub.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd Blood_Hub
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Set up environment variables:
-   Create a `.env` file in the root directory and add the following variables:
-   ```env
-   PORT=3000
-   MONGODB_URI=your_mongodb_uri
-   JWT_SECRET=your_jwt_secret
-   GOOGLE_CLIENT_ID=your_google_client_id
-   GOOGLE_CLIENT_SECRET=your_google_client_secret
-   ```
-5. Start the server:
-   ```bash
-   npm start
-   ```
+# 📖 Overview
 
-## API Endpoints 🏗️
-<br>
+_The Blood Hub Website is a full-stack platform designed to connect blood donors and receivers quickly and efficiently. It features real-time location tracking and routing between users using Leaflet.js and Leaflet Routing Machine — making it easier to save lives during emergencies._
 
-## 1. **_REGISTER A NEW USER IN OUR SYSTEM WITH THIS API_** 🪧
-#### 📫POST 🙎🏽‍♀️ `/user/register` 🙎🏽‍♂️
+---
 
-**Request Body:**
+# 🛠️ Tech Stack
 
-`Required Field`
+- **Frontend:** React.js (Vite)
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Real-Time Communication:** Socket.IO
+- **Maps & Location Tracking:** Leaflet.js + Leaflet Routing Machine
 
-| ***Field*** | 🚦***Rules*** 🚦 |
-|-------|--------|
-| **Name** | - Required |
-| **Email** | - Required<br>- Valid email format<br>- Must be unique |
-| **Password** | - Required<br>- Minimum 8 characters<br>- At least one uppercase letter<br>- At least one lowercase letter<br>- At least one number<br>- At least one special character |
+---
 
-<br><br>
+# ✨ Features
 
-# LIKE This object ✅
+- 🔴 **Donor and Receiver Registration:** Easy signup and login system for both types of users.
+- 🧽 **Live Location Tracking:** View nearby donors/receivers on an interactive Leaflet map.
+- 🚳️ **Real-Time Routing:** Get the shortest route between donor and receiver using Leaflet Routing Machine.
+- 🔒 **Secure Authentication:** Secure login and user data protection.
+- 📋 **Blood Group Matching System:** Auto-match users based on blood type.
+- 🧒‍♂️ **Fast Connection:** Save precious time by quick matching and live location sharing.
+
+<br/>
+
+# 🔁 Real-Time Features
+
+- 📡 **Real-Time Updates:** Instant notifications when a matching blood type is available.
+
+- 📡 **Live Blood Request Matching**: Donors and receivers matched based on blood group.
+
+- 📡 **Real-Time Notifications**: Triggered when a new donor or request matches criteria.
+
+- 📡 **Location Sharing**: Donors can share live location during the process.
+
+---
+
+<br/>
+
+# 🚀 How to Run Locally
+
+> # 🛑 **Important**: Backend Entry point or file is mainServer.js . 
+
+## 1. Clone the Repositories
+
+> **Backend Repository**
+
+```bash
+git clone https://github.com/Sc-Designs/Blood_hub_Backend
+
+```
+> ## Frontend Repository
+
+```bash
+git clone https://github.com/Sc-Designs/Blood_hub_Frontend
+```
+
+## 2. Setup Backend
+
+```bash
+cd Blood_hub_Backend
+npm install
+```
+
+- ### Create a .env file inside /backend folder and add:
 
 ```js
-  name: "John Doe",
-  email: "user@example.com",
-  password: "StrongPass123!"
+MONGO_URI=your_mongodb_connection_string
+PORT=Your_backend_server_port
+SESSION_SECRET=bqfiuybfp9q7fq39f713qp937
+HOSTER_CLR= // put the Gmail server protocol (smtp or something else)
+GMAIL_USERNAME=Your_Gmail
+PORT_CLR=Port_Number
+PORT_SSL= // 465 or 587
+GOOGLE_CLIENT_SECRET=Google_Auth_Secret_Key
+GOOGLE_CLIENT_ID=Google_Client_Id
 ```
-<br>
+- ## Start Backend Server:
 
-## Response Code
-```diff
-+ Response Code Success Response (201) ✅
-- Response Code Error Response (500) ❌
+```bash
+npm start
 ```
-<br><br>
+or
+first download the nodemon packdge from npm
+```bash
+npm install nodemon
+npx nodemon mainServer.js
+```
 
-# ***Sending OTP in Mail***
+## 3. Setup Frontend
 
-`We Send OTP in Mail`
+```bash
+cd Blood_hub_Frontend
+npm install
+```
+- ## Start Frontend Server:
 
-After OTP verification, the data will be saved in the Database. 
+```bash
+npm run dev
+```
 
-<br><br>
+## 4. Open in Browser
 
-#  MONGOOSE SAVED DATA 📑
+Visit http://localhost:5173 to access the React app.
+
+<br/>
+
+# 🌐 Deployment
+
+### The live version of the application is available at: 
+https://bloodcenter.netlify.app/
+
+
+# 📸 Screenshots
+
+- ## Homepage View
+
+![Home Page Picture](/images/home.png)
+
+- ## Profile View
+
+![Profile Page Picture](/images/profile.png)
+
+- ## Blood History View
+
+![Blood History Page Picture](/images/blood.png)
+
+- ## Admin View
+
+![Admin Page Picture](/images/Admin.png)
+
+- ## All User In Admin side View
+
+![Admin Page Picture](/images/allUser.png)
+
+<br/>
+
+# 📢 Future Improvements
+- ✉️ SMS Notifications: Send alerts when a matching donor is found.
+
+- 🏥 Hospital Management System: Allow hospitals to request blood
+
+- 🤖 AI Based Matching: Suggest best matches based on availability and location.
+
+<br/><br/>
+
+# 🏗️ Backend EndPoint
+
+# Admin EndPoint
+
+>> ## POST /admin/register
+
+| **Filed** | **Requered** |
+| ------ | ------|
+| Name | Yes |
+| Email | Yes |
+| password | Yes |
+
+> ## Notice For Admin Register
+
+- This end Point work in `Postman`
+
+<br/><br/>
+
+>> ## POST /admin/login
+
+| **Filed** | **Requered** |
+| ------ | ------|
+| Email | Yes |
+| password | Yes |
+
+<br/><br/>
+
+>> ## POST /admin/allcounts
+
+- This endpoint returns all `User` details in an array format:
 
 ```js
-    userId: mongoose.Schema.Types.ObjectId,  // mongoose object id
-    email: String,  // string containing email
-    name: String,  // string containing name
-    password: String  // hashed password
-```
-<br>
-
-## ***Validation Rules***
-- **`Fullname`**: 
-  - Required
-  - Alphanumeric characters and no underscores
-
-- **`Email`**:
-  - Required
-  - Must be a valid email format
-  - Must be unique
-- **`Password`**:
-  - Required
-  - Minimum 8 characters
-  - Maximum 25 characters
-  - Must contain at least one uppercase letter
-  - Must contain at least one lowercase letter
-  - Must contain at least one number
-  - Must contain at least one special character
----
-<br><br>
-
-## 2. **_LOGIN THE USER IN OUR SYSTEM WITH THIS API_** 🪧
-<br>
-
-#### 📫POST 🙎🏽‍♀️ `/user/login` 🙎🏽‍♂️
-
-**Request Body:**
-
-| ***Field*** | ***Rules*** |
-|------|-------|
-|Email| String("example@example.com") |
-|Password| String|
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (406) ❌
+    allUser = [...{User}]
 ```
 
-## Sending Things in Frontend 
+<br/><br/>
 
-- User Token: String (In Cookie section with hashed format) 
+>> ## POST /admin/adminPic
 
-<br>
-<br>
-<br>
+- Upload a profile picture. The image is stored as a `Buffer` in MongoDB Atlas. 
 
-## 3. **_USER PROFILE_** 🪧
+<br/><br/>
 
-#### 📫 GET `/user/profile`
+>> ## POST /admin/ticket-maker
 
-> ## _Token in Cookie Section_
+- This endpoint creates a ticket by asking for a `TicketTitle` and `Description`.
 
-- **Available**
-  - User Redirected to his/her profile.
-- **Not Available** 
-  - User Redirected to the login Page!
-- **If Not Match**
-  - User Redirected to the login Page!
-## Response Code
-```diff
-+ if the User profile found (302) ✅
-- if the User profile Not found (404) ❌
+<br/><br/>
+
+>> ## POST /admin/ticket
+
+- This endpoint returns all tickets raised by the admin in array format:
+
+```js
+ allTicket = [...{Ticket}]
 ```
 
-<br>
+<br/><br/>
 
-## 4. **_REGISTER A NEW ADMIN IN OUR SYSTEM WITH THIS API_** 🪧
+# Users EndPoint
 
-<br>
+>> ## POST /users/register
 
-> ##  **This is only used in Development Phase** 
+| **Filed** | **Requered** |
+| ------ | ------|
+| Name | Yes |
+| Email | Yes |
+| password | Yes |
 
-#### 📫POST 👦🏽 `/admin/register` 👦🏽
+If any user registers with Google, then: 
 
-**Request Body:**
+| **Scoped** | **Requered** |
+| ------ | ------|
+| Email | Yes |
+| Name | Yes |
 
-`Required Field`
+- After registration, it sends specific data of the User:
 
-|***Field***|***Rules***|
-|-----|-----|
-|**Fullname**| - Object<br>- FirstName<br>- MiddleName<br>- LastName |
-|**Email**|- String<br>- Must be verified email|
-|**Password**|- String<br>- Minimum 08 and Maximum 25|
-
-## Response Code
-```diff
-+ if Admin register Successfully (201) ✅
-- if Admin register Not Successfully (500) ❌
+```js
+    User = {
+        name: "",
+        email: "",
+        profilePic: "",
+        verified: // true or false ,
+        bloodRequest: [],
+        donate: [],
+        pictype: // default image/png
+    } 
 ```
-<br><br>
+Then, it sends the OTP to the Gmail for authorization.
 
-## 5. **_LOGIN THE ADMIN IN OUR SYSTEM WITH THIS API_** 🪧
+<br/><br/>
 
-#### 📫POST 👦🏽 `/admin/login` 👦🏽
+>> ## POST /users/login
 
-**Request Body:**
+| **Filed** | **Requered** |
+| ------ | ------|
+| Name | Yes |
+| Email | Yes |
+| password | Yes |
 
-`Required Field`
+If any user registers with Google, then:
 
-|***Field***|***Rules***|
-|-----|-----|
-|**Email**|- String("example@example.com")|
-|**Password**|- String|
+| **Scoped** | **Requered** |
+| ------ | ------|
+| googleId | Yes |
 
-## Response Code
-```diff
-+ if Admin Successfully Login (200) ✅
-- if Admin Not Successfully Login (406) ❌
-```
-<br>
-
-## 6. **_ADMIN PROFILE_** 🪧
-
-#### 📫 GET `/admin/admin-profile`
-
-> ## _adminToken in Cookie Section_
-
-- **Available**
-  - User Redirected to his/her profile.
-- **Not Available** 
-  - User Redirected to the login Page!
-- **If Not Match**
-  - User Redirected to the login Page!
-
-## Response Code
-```diff
-+ if the Admin profile found (302) ✅
-- if the Admin profile Not found (404) ❌
-```
-<br>
-<br>
-
-## 7. **_GOOGLE AUTHENTICATION ROUTE_** 🪧
-
-### Authentication Route
-
-#### 📫 GET `/google-auth/auth/google`
-
----
-
-### This is Callback URL for Google
-
-#### 📫 GET `/google-auth/auth/google/callback`
-
-```javascript
-  {
-    Scope: ["Profile", "Email"]
-  }
-```
-### Success Route And Failure Route
-
-```diff
-+ /users/profile ✅
-- /users/login ❌
-```
----
-<br>
-
-> # 🛑 Important Notice :
-
-### If User does <i><b><u>"Signin with Google"</u></b></i> they will not require the password section, it will be redirected by Google ID.
-
-## 8. **_UPDATE USER PROFILE_** 🪧
-
-#### 📫 PUT `/user/update-profile`
-
-**Request Body:**
-
-| ***Field*** | ***Rules*** |
-|------|-------|
-|Name| String |
-|Email| String("example@example.com") |
-|Password| String |
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
+```js
+    User = {
+        name: "",
+        email: "",
+        profilePic: "",
+        verified: true ,
+        bloodRequest: [],
+        donate: [],
+        pictype: // default image/png
+    } 
 ```
 
-## 9. **_DELETE USER ACCOUNT_** 🪧
+<br/><br/>
 
-#### 📫 DELETE `/user/delete-account`
+> ## POST /users/otp-verify
 
-**Request Body:**
+- If the user opens the account for the first time, this endpoint changes the verified field in the database to true if the OTP matches and hasn't expired.
 
-#### see the token and find the user in database and delete the account 
+- OTP expiry time: 60 seconds.
 
-## Response Code
+- After verification, it sends a welcome message to the User.
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
+<br/><br/>
+
+> ## POST /users/resendOtp
+
+- This endpoint finds the User again and sends a new OTP to their Gmail.
+
+<br/><br/>
+
+> ## POST /users/alldets
+
+- This endpoint sends all the blood requests in an array format:
+
+```js
+    allPost = [...allPost]
 ```
 
-## 10. **_UPLOAD USER PROFILE PICTURE_** 🪧
+<br/><br/>
 
-#### 📫 POST `/user/picture-upload`
+> ## POST /users/picture-upload
 
-**Request Body:**
+- This endpoint looks for an image from the authorized user, which will be saved as the profile picture in the database in `Buffer` format.
 
-| ***Field*** | ***Rules*** |
-|------|-------|
-|profilepic| File |
+<br/><br/>
 
-## Response Code
+# Donar EndPoint
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
+> ## POST /donar/donateDets
+
+- This endpoint sends all the `pending` blood donation posts.
+
+<br/><br/>
+
+# NODE VERSION
+
+- This website backend code runs on `Node v22.14.0`.
+
+<br/><br/>
+
+# 🩸 Blood Hub — Website Architecture
+
+![Website Architecture Picture](/images/Wesite%20Architecture.png)
+
+<br/><br/>
+
+# Website Diagram
+
+```pgsql
+[User (Browser)]
+     ↓
+ [Frontend (React)]
+     ↓ (HTTP Request)
+ [Backend (Express.js Server)]
+     ↓ (Database Query)
+ [MongoDB Atlas Database]
+
++-------------------------------------------+
+|                                           |
+|        Real-Time (Socket.IO)              |
+|   - Location sharing                      |
+|   - Real-time notifications               |
+|                                           |
++-------------------------------------------+
+
 ```
 
-## 11. **_OTP VERIFICATION_** 🪧
+<br/> <br/>
 
-#### 📫 GET `/user/otp-verification/:id`
+# User Flow
 
-**Request Params:**
+- User registers or logs in.
 
-| ***Field*** | ***Rules*** |
-|------|-------|
-|id| String |
+- Requester posts a blood request.
 
-## Response Code
+- System matches based on blood type.
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
+- Real-time sent to matching users Frontent with Socket.Io .
+
+- After successful donation, the database is updated.
+
+<br/> <br/>
+
+# Example User Journey
+
+```pgsql
+User logs in → User requests for blood → Server matches donor → 
+Send the available donar frontend side with Socket.Io →
+Both users get connected via notification → Blood donation completed →
+Database updated
 ```
 
-## 12. **_RESEND OTP_** 🪧
+<br/> <br/>
 
-#### 📫 POST `/user/resend-otp`
+# 🗂️ Project Structure
 
-**Request Body:**
+## **Frontend (React + Vite)**
 
-| ***Field*** | ***Rules*** |
-|------|-------|
-|email| String("example@example.com") |
+- **src/components/**: Reusable UI components
 
-## Response Code
+- **src/pages/**: Page components (Home, Login, Donor, Receiver, etc.)
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
-```
+- **src/context/**: Global state (User, Admin, Donate, AllUsers)
 
-## 13. **_DELETE BLOOD REQUEST_** 🪧
+- **src/utils/**: Navbar function
 
-#### 📫 POST `/user/deletePost`
+- **src/assets/**: PDFs, Fonts
 
-**Request Body:**
+- **src/config**: Initializes and manages Socket.IO client, Admin Axios, User Axios
 
-| ***Field*** | ***Rules*** |
-|------|-------|
-|postId| String |
+- **src/auth**: Authenticator (Admin, User)
 
-## Response Code
+- **src/Routes**: All Route Location
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
-```
+## **Backend (Express.js)**
+- **routes/**: API routes (/adminRouter, /usersRouter, /googleAuthenticatorRouter, /donarRouter, /pdfGenerator)
 
-## 14. **_ADD BLOOD GROUP_** 🪧
+- **controllers/**: Core logic for Admin, Blood Request, Google Signin and Login, Pdf Generator, User
 
-#### 📫 POST `/user/add_blood_group`
+- **models/**: Mongoose schemas (User, Request, Admin, Ticket)
 
-**Request Body:**
+- **middlewares/**: JWT auth, error handling (User and Admin)
 
-| ***Field*** | ***Rules*** |
-|------|-------|
-|bloodGroup| String |
+- **utils/socket.io.js**: Handles real-time Socket.IO connections/events
 
-## Response Code
+- **socketAllFuntions**: Handel all the event funtions
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (400) ❌
-```
+<br/> <br/>
 
-## 15. **_HOME PAGE_** 🪧
+# 🔐 User Flow with Authentication
 
-#### 📫 GET `/`
+1. User registers or logs in (token issued).
 
-## Response Code
+2. Token stored in localStorage.
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (500) ❌
-```
+3. All protected routes and Socket.IO connections use this token.
 
-## 16. **_MAP PAGE_** 🪧
+4. Backend verifies JWT before granting access or emitting events.
 
-#### 📫 GET `/maps`
+<br/> <br/>
 
-## Response Code
+# 📦 API + Socket Flow
+### **Example: Blood Request Flow**
+1. Receiver submits blood request via frontend.
 
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (500) ❌
-```
+2. Frontend sends POST request to backend.
 
-## 17. **_ERROR PAGE_** 🪧
+3. Backend saves the request to MongoDB.
 
-#### 📫 GET `/:anything`
+4. Backend emits a new-request event via Socket.IO.
 
-## Response Code
+5. All connected donors with matching blood types receive real-time updates.
 
-```diff
-+ if Successful then status code (200) ✅
-```
+<br/> <br/>
 
-## 18. **_SEE ALL BLOOD REQUESTS_** 🪧
+# 👌 Thank you for using the Blood Hub Website!
 
-#### 📫 GET `/donar/request-list`
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (500) ❌
-```
-
-## 19. **_DONATE FORM_** 🪧
-
-#### 📫 GET `/donar/donate_from/:id`
-
-**Request Params:**
-
-| ***Field*** | ***Rules*** |
-|------|-------|
-|id| String |
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (500) ❌
-```
-
-## 20. **_ACCEPT DONATION_** 🪧
-
-#### 📫 POST `/donar/accept`
-
-**Request Body:**
-
-| ***Field*** | ***Rules*** |
-|------|-------|
-|requestId| String |
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (500) ❌
-```
-
-## 21. **_REQUEST BLOOD_** 🪧
-
-#### 📫 POST `/blood/blood-request`
-
-**Request Body:**
-
-| ***Field*** | ***Rules*** |
-|------|-------|
-|bloodType| String |
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-- if Not Successful then status code (500) ❌
-```
-
-## 22. **_ADMIN LOGIN PAGE_** 🪧
-
-#### 📫 GET `/admin/login`
-
-## Response Code
-
-```diff
-+ if Successful then status code (200) ✅
-```
-
-## Contributors
-- [Your Name](https://github.com/yourusername)
-- [Contributor Name](https://github.com/contributorusername)
-
+### Together, we can save lives. ❤️
