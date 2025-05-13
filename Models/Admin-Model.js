@@ -61,18 +61,14 @@ const adminSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  otpCode: {
-    type: String,
-    default: null,
-  },
-  otpExpiry: {
-    type: Date,
-    default: null,
-  },
   serverOnOff: {
     type: Boolean,
     default: false,
   },
+  delayTimer:{
+    type:Number,
+    default:60
+  }
 });
 
 adminSchema.methods.GenerateToken = function () {

@@ -1,5 +1,6 @@
 const http = require("http");
 const dotenv = require("dotenv");
+dotenv.config();
 const { initSocket } = require("./utlis/Socket.io");
 
 

@@ -2,7 +2,7 @@ const bloodRequestModel = require("../Models/Recivent-Model");
 const userModel = require("../Models/User-Model");
 const { getIO } = require("../utlis/socketInstance");
 
-exports.deletePost = async ({ id, customer, userSockets, user }) => {
+module.exports.deletePost = async ({ id, customer, userSockets, user }) => {
   const io = getIO();
   try {
     const post = await bloodRequestModel.findById(id);

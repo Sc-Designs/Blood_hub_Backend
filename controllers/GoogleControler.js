@@ -6,6 +6,7 @@ const emailTemplate = require("../Email_Template/Emails");
 const userService = require("../Services/user.service");
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const userModel = require("../Models/User-Model");
+const {cleanUser} = require("../utlis/cleanUser");
 
 module.exports.verifyGoogleToken = async (req, res) => {
   try {
@@ -22,28 +23,12 @@ module.exports.verifyGoogleToken = async (req, res) => {
     if (!email) {
       return res.status(400).json({ error: "Email not found in token" });
     }
-    function cleanUser(user) {
-      const {
-        password,
-        otp,
-        otpExpiry,
-        emergencycontact,
-        gender,
-        age,
-        googleId,
-        createdAt,
-        updatedAt,
-        __v,
-        ...safeUser
-      } = user._doc;
-      return safeUser;
-    }
 
     let user = await userFinder({key:"email", query: email});
     const otp = Otp.OtpGenerator();
 
     if (!user) {
-      const password = "password";
+      const password = process.env.PASSWORD;
       const hashedPassword = await userModel.hashPassword(password);
       user = await userService.createUser({
         name,

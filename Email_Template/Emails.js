@@ -734,7 +734,7 @@ module.exports.ForgetPassword = ({name,otp}) => {
 															<td class="pad">
 																<div style="color:#101112;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:1.2;text-align:left;mso-line-height-alt:19px;">
 																	<p style="margin: 0; margin-bottom: 16px;">🔒 <strong>Your OTP is: [${otp}]</strong></p>
-																	<p style="margin: 0; margin-bottom: 16px;">This OTP is valid for [ <strong>01:00 </strong>]<strong>&nbsp;minutes</strong>. If you did not request this change, please ignore this email or contact our support team immediately.</p>
+																	<p style="margin: 0; margin-bottom: 16px;">This OTP is valid for [ <strong>02:00 </strong>]<strong>&nbsp;hours</strong>. If you did not request this change, please ignore this email or contact our support team immediately.</p>
 																	<p style="margin: 0;">If you encounter any issues, feel free to reach out to us.</p>
 																</div>
 															</td>

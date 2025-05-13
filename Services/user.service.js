@@ -10,6 +10,7 @@ module.exports.createUser = async ({
   gender,
   googleId,
   verified,
+  delayTime,
 }) => {
   if (!email || !password || !name) {
     throw new Error("All fields are required!");
@@ -25,6 +26,7 @@ module.exports.createUser = async ({
     gender,
     googleId,
     verified,
+    delayTime,
   });
   return user;
 };

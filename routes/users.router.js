@@ -16,6 +16,8 @@ router.post("/picture-upload",isLoggedInMiddleware, upload.single("profilepic"),
 router.get('/profile',isLoggedInMiddleware,UserAuthController.GetProfile);
 router.post("/otp-verify", UserAuthController.varifyOtp);
 router.post("/resendOtp", UserAuthController.reSendOtp);
-router.post("/alldets", isLoggedInMiddleware, UserAuthController.alldets)
+router.post("/alldets", isLoggedInMiddleware, UserAuthController.alldets);
+router.post("/forgetPass", UserAuthController.forgetPassword);
+router.post("/updatePassword", UserAuthController.updatePassword);
 
 module.exports = router;

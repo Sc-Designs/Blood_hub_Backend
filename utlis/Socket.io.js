@@ -14,8 +14,11 @@ const {requestPartnerLocation} = require("../soketAllFunctions/requestPartnerLoc
 const {Disconnected} = require("../soketAllFunctions/disconnect");
 const {blockUnblockUser} = require("../soketAllFunctions/blockUnblock");
 const {serverSetting} = require("../soketAllFunctions/serverSettings");
+const {timerChange} = require("../soketAllFunctions/timerChange");
 
 const { setIO } = require("./socketInstance");
+const { acceptOrDenayRequest } = require("../soketAllFunctions/acceptOrDenayRequest");
+const { otpValidation } = require("../soketAllFunctions/OtpValidation");
 
 const initSocket = (server) => {
   const io = new Server(server, {
@@ -65,12 +68,19 @@ const initSocket = (server) => {
       }
     });
 
+    socket.on("seeAllowRequest", async (data)=>{
+      try{
+        await acceptOrDenayRequest(userId, data);
+      } catch(err){
+        console.error("Error in blood-request handler:", err);
+      }
+    });
+
     socket.on("blood-request", async (data) => {
       try {
         await acceptRequest({data: data, userSockets, userId});
       } catch (err) {
         console.error("Error in blood-request handler:", err);
-        socket.emit("error", "Something went wrong while adding the post");
       }
     });
 
@@ -79,7 +89,6 @@ const initSocket = (server) => {
         await deleteRequest({ id, customer, userSockets, user: socket.user });
       } catch (err) {
         console.error("Error in delete-Post handler:", err);
-        socket.emit("error", "Something went wrong while deleting the post");
       }
     });
 
@@ -88,7 +97,6 @@ const initSocket = (server) => {
         await requestAccepted({ data, userSockets, socket });
       } catch (err) {
         console.error("Error in accepted-request handler:", err);
-        socket.emit("error", "Something went wrong while accepting the post");
       }
     });
 
@@ -105,7 +113,6 @@ const initSocket = (server) => {
         });
       } catch (err) {
         console.error("Error in join-room handler:", err);
-        socket.emit("error", "Something went wrong while joining the room");
       }
     });
 
@@ -122,7 +129,6 @@ const initSocket = (server) => {
         });
       } catch (err) {
         console.error("Error in share-location handler:", err);
-        socket.emit("error", "Something went wrong while sharing the location");
       }
     });
 
@@ -135,10 +141,39 @@ const initSocket = (server) => {
         });
       } catch (err) {
         console.error("Error in partner-location handler:", err);
-        socket.emit(
-          "error",
-          "Something went wrong while sharing the partner Location."
-        );
+      }
+    });
+    
+    socket.on("Timer-Change", async (time) => {
+      try {
+        console.log(time)
+        await timerChange({time, socket});
+      } catch (err) {
+        console.error("Error in timer-change handler:", err);
+      }
+    });
+    
+    socket.on("blockUnblock-user", async (data) => {
+      try {
+        await blockUnblockUser(data);
+      } catch (err) {
+        console.error("Error in blockUnblock-user handler:", err);
+      }
+    });
+    
+    socket.on("server-req", async (email) => {
+      try {
+        await serverSetting(email);
+      } catch (err) {
+        console.error("Error in server-req handler:", err);
+      }
+    });
+
+    socket.on("otp-sender", async (data)=>{
+      try{
+        await otpValidation(data);
+      } catch(err){
+        console.log(err);
       }
     });
 
@@ -152,25 +187,6 @@ const initSocket = (server) => {
         });
       } catch (err) {
         console.error("Error in disconnect handler:", err);
-        socket.emit("error", "Something went wrong while disconnecting User.");
-      }
-    });
-
-    socket.on("blockUnblock-user", async (data) => {
-      try {
-        await blockUnblockUser(data);
-      } catch (err) {
-        console.error("Error in blockUnblock-user handler:", err);
-        socket.emit("error", "Something went wrong while blocking/unblocking");
-      }
-    });
-
-    socket.on("server-req", async (email) => {
-      try {
-        await serverSetting(email);
-      } catch (err) {
-        console.error("Error in server-req handler:", err);
-        socket.emit("error", "Something went wrong in Server Settings.");
       }
     });
   });

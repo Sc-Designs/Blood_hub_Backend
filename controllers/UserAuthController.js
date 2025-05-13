@@ -5,6 +5,8 @@ const Otp = require("../utlis/OtpFunction");
 const EmailSender = require("../utlis/EmailSender");
 const emailTemplate = require("../Email_Template/Emails");
 const {userFinder} = require("../utlis/UserFinder");
+const {cleanUser} = require("../utlis/cleanUser");
+const adminModel = require("../Models/Admin-Model");
 
 module.exports.registerUser = async (req, res) => {
   try{
@@ -20,14 +22,17 @@ module.exports.registerUser = async (req, res) => {
     if(userExists){
         return res.status(400).json("User Already Exists");
     }
+    const admin = await adminModel.findOne();
+    if(!admin) return res.status(400).json("Something went wrong!")
     const hashedPassword = await userModel.hashPassword(password);
     const otp = Otp.OtpGenerator();
     const user = await userService.createUser({
       name: name,
-      email:email,
+      email: email,
       password: hashedPassword,
       otp: otp,
       otpExpiry: new Date(Date.now() + 60 * 1000),
+      delayTime: admin.delayTimer,
     });
     await user.save();
     delete user._doc.password;
@@ -66,18 +71,8 @@ module.exports.loginUser = async (req, res) => {
     user.otp = OTP;
     user.otpExpiry = OtptpExpiry;
     await user.save();
-
-     delete user._doc.password;
-     delete user._doc.otp;
-     delete user._doc.otpExpiry;
-     delete user._doc.emergencycontact;
-     delete user._doc.gender;
-     delete user._doc.age;
-     delete user._doc.googleId;
-     delete user._doc.createdAt;
-     delete user._doc.updatedAt;
-     delete user._doc.__v;
-     res.status(200).json({ user });
+    const cleanedUser = cleanUser(user)
+     res.status(200).json(cleanedUser);
      await EmailSender.sendEmail({
        email: user.email,
        sub: "🔢Login OTP🔢",
@@ -108,17 +103,8 @@ module.exports.uploadProfilePic = async (req, res) => {
     user.profilepic = req.file.buffer.toString("base64");
     user.pictype = req.file.mimetype;
     await user.save();
-    delete user._doc.password;
-    delete user._doc.otp;
-    delete user._doc.otpExpiry;
-    delete user._doc.emergencycontact;
-    delete user._doc.gender;
-    delete user._doc.age;
-    delete user._doc.googleId;
-    delete user._doc.createdAt;
-    delete user._doc.updatedAt;
-    delete user._doc.__v;
-    return res.status(200).json({ user });
+    const cleanedUser = cleanUser(user);
+    return res.status(200).json({ cleanedUser });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Something went wrong" });
@@ -229,3 +215,47 @@ module.exports.alldets = async (req,res) => {
     console.log(err);
   }
 }
+
+module.exports.forgetPassword = async (req,res) => {
+  try{
+    const {email} = req.body;
+    const user = await userFinder({key:"email", query: email});
+    const OTP = Otp.OtpGenerator();
+    const forgeteOtpExpiry = new Date(Date.now() + 2 * 60 * 60 * 1000);
+    user.forgeterOtp = OTP;
+    user.forgeterOtpExpiry = forgeteOtpExpiry;
+    await user.save();
+    await EmailSender.sendEmail({
+      email: user.email,
+      sub: "🔢Forget Password OTP🔢",
+      mess: emailTemplate.ForgetPassword({ name: user.name, otp: OTP }),
+    });
+  }catch(err){
+    console.log(err);
+  }
+};
+
+module.exports.updatePassword = async (req,res) => {
+  try{
+    const {email, otp, password} = req.body;
+    const user = await userFinder({
+      key: "email",
+      query: email,
+      includePassword : true,
+    });
+    const isMatch = await user.ComparePassword(password);
+    if(isMatch) return res.status(409).json({ msg: "Same password" });
+    if(user.forgeterOtp == otp && user.forgeterOtpExpiry > new Date(Date.now())){
+      const hashPassword = await userModel.hashPassword(password);
+      user.password = hashPassword;
+      user.forgeterOtp = null;
+      user.forgeterOtpExpiry = null;
+      await user.save();
+      res.status(200).json({ msg: "Password updated" });
+    } else {
+      res.status(401).json({ msg: "Invalid OTP or expired" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -7,11 +7,9 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      minlength: [3, "Name must be at least 3 characters long"],
     },
     password: {
       type: String,
-      minlength: [5, "Password must be at least 5 characters long"],
       select: false,
     },
     email: {
@@ -19,7 +17,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
-      minlength: [5, "Email must be at least 5 characters long"],
     },
     phone: {
       type: String,
@@ -29,7 +26,6 @@ const userSchema = new mongoose.Schema(
     address: {
       type: String,
       select: false,
-      minlength: [5, "Address must be at least 5 characters long"],
     },
     otp: {
       type: Number,
@@ -102,8 +98,20 @@ const userSchema = new mongoose.Schema(
     },
     number: {
       type: Number,
-      default: null
-    }
+      default: null,
+    },
+    delayTime: {
+      type: Number,
+      default: null,
+    },
+    forgeterOtp: {
+      type: Number,
+      default: null,
+    },
+    forgeterOtpExpiry: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

@@ -2,20 +2,17 @@ const { createBloodRequest } = require("../Services/blood.service");
 const { getIO } = require("../utlis/socketInstance");
 const userModel = require("../Models/User-Model");
 const bloodRequestModel = require("../Models/Recivent-Model");
-const moment = require("moment");
 
-exports.acceptRequest = async ({ data, userSockets, userId }) => {
+module.exports.acceptRequest = async ({ data, userSockets, userId }) => {
   const io = getIO();
   try {
-    const date = moment().format("DD/MM/YYYY");
-    const time = moment().format("LT");
-    const { bloodGroup, number } = data;
+    const { bloodGroup, number, date, Time } = data;
     const bloodReq = await createBloodRequest({
       reciventId: userId,
       bloodType: bloodGroup,
       number,
       date,
-      time,
+      time: Time,
     });
     if (!bloodReq) {
       console.log("❌ Blood request not created");
