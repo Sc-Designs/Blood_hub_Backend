@@ -12,7 +12,7 @@ module.exports.acceptOrDenayRequest = async (userId, data) => {
       includePopulate: true,
     });
 
-    const lastRequest = user.bloodRequest[(user.bloodRequest.length - 2)];
+    const lastRequest = user.bloodRequest[(user.bloodRequest.length - 1)];
     if (!lastRequest) {
       console.log("✅ No previous request, user can send one.");
       return;
