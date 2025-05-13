@@ -14,8 +14,7 @@ module.exports.acceptOrDenayRequest = async (userId, data) => {
 
     const lastRequest = user.bloodRequest[(user.bloodRequest.length - 1)];
     if (!lastRequest) {
-      console.log("✅ No previous request, user can send one.");
-      return;
+      return io.emit("allowingResult", { result: true });
     }
 
     const lastRequestMoment = moment(

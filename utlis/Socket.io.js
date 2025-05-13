@@ -6,7 +6,7 @@ const {userFinder} = require("../utlis/UserFinder");
 const userModel = require("../Models/User-Model");
 
 const {acceptRequest} = require("../soketAllFunctions/acceptRequest");
-const {deleteRequest} = require("../soketAllFunctions/deleteRequest");
+const { deletePost } = require("../soketAllFunctions/deleteRequest");
 const {requestAccepted} = require("../soketAllFunctions/requestAccepted");
 const {joinRoom} = require("../soketAllFunctions/joinRoom");
 const {shareLocation} = require("../soketAllFunctions/shareLocation");
@@ -86,7 +86,7 @@ const initSocket = (server) => {
 
     socket.on("delete-Post", async (id) => {
       try {
-        await deleteRequest({ id, customer, userSockets, user: socket.user });
+        await deletePost({ id, customer, userSockets, user: socket.user });
       } catch (err) {
         console.error("Error in delete-Post handler:", err);
       }

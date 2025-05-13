@@ -35,7 +35,7 @@ module.exports.deletePost = async ({ id, customer, userSockets, user }) => {
       delete updatedReceiverData.password;
     }
 
-    io.to(user.toString()).emit("update-Post", updatedReceiverData);
+    io.emit("update-Post", updatedReceiverData);
 
     const matchingPendingPosts = await bloodRequestModel
       .find({ status: "pending", bloodType: post.bloodType })
