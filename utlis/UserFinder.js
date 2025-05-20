@@ -17,12 +17,10 @@ module.exports.userFinder = async ({
         {
           path: "bloodRequest",
           model: "recipient",
-          options: { sort: populateSort },
         },
         {
           path: "Donate",
-          model: "recipient",
-          options: { sort: populateSort },
+          model: "recipient"
         },
       ]);
     }
