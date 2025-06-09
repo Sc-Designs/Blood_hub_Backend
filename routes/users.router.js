@@ -19,5 +19,6 @@ router.post("/resendOtp", UserAuthController.reSendOtp);
 router.post("/alldets", isLoggedInMiddleware, UserAuthController.alldets);
 router.post("/forgetPass", UserAuthController.forgetPassword);
 router.post("/updatePassword", UserAuthController.updatePassword);
+router.post("/contactUs", isLoggedInMiddleware, UserAuthController.ContactUs)
 
 module.exports = router;

@@ -259,3 +259,17 @@ module.exports.updatePassword = async (req,res) => {
     console.log(err);
   }
 };
+
+module.exports.ContactUs = async (req,res)=>{
+  try{
+    const { name, email, message } = req.body;
+    await EmailSender.sendBackMail({
+           email: email,
+           sub: "User Contact",
+           mess: `${name}, Email is ${email} ,send a Message: <br> ${message}`,
+         });
+         res.status(200).json("ok");
+  }catch(err){
+    console.log(err);
+  }
+};

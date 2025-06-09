@@ -33,6 +33,10 @@ const recipientSchema = new mongoose.Schema({
   time: {
     type: String,
     default: null,
+  },
+  urgency: {
+    type: String,
+    default: null,
   }
 });
 

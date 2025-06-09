@@ -6,13 +6,14 @@ const bloodRequestModel = require("../Models/Recivent-Model");
 module.exports.acceptRequest = async ({ data, userSockets, userId }) => {
   const io = getIO();
   try {
-    const { bloodGroup, number, date, Time } = data;
+    const { bloodGroup, number, date, Time, urgency } = data;
     const bloodReq = await createBloodRequest({
       reciventId: userId,
       bloodType: bloodGroup,
       number,
       date,
       time: Time,
+      urgency,
     });
     if (!bloodReq) {
       console.log("❌ Blood request not created");
@@ -20,7 +21,7 @@ module.exports.acceptRequest = async ({ data, userSockets, userId }) => {
         message: "Invalid Request",
       });
     }
-
+    
     await bloodReq.save();
     const customer = await userModel.findById(userId);
     customer.bloodRequest.push(bloodReq._id);
