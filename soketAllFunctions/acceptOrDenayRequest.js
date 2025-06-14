@@ -13,7 +13,7 @@ module.exports.acceptOrDenayRequest = async (userId, data) => {
     });
 
     const lastRequest = user.bloodRequest[(user.bloodRequest.length - 1)];
-    if (!lastRequest) {
+    if (lastRequest.length == 0 ) {
       return io.emit("allowingResult", { result: true });
     }
 
