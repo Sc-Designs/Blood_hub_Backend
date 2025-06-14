@@ -104,7 +104,6 @@ module.exports.uploadProfilePic = async (req, res) => {
     user.pictype = req.file.mimetype;
     await user.save();
     const cleanedUser = cleanUser(user);
-    console.log(cleanedUser);
     return res.status(200).json({ cleanedUser });
   } catch (err) {
     console.error(err);
